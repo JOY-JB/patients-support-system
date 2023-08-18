@@ -26,9 +26,9 @@ const Header = () => {
             className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li>
-              <a>Item 1</a>
+              <Link href={"/"}>Home</Link>
             </li>
-            <li>
+            {/* <li>
               <a>Parent</a>
               <ul className="p-2">
                 <li>
@@ -38,9 +38,12 @@ const Header = () => {
                   <a>Submenu 2</a>
                 </li>
               </ul>
+            </li> */}
+            <li>
+              <a>Doctor</a>
             </li>
             <li>
-              <a>Item 3</a>
+              <a>Patient</a>
             </li>
           </ul>
         </div>
@@ -53,29 +56,31 @@ const Header = () => {
           <li>
             <Link href={"/"}>Home</Link>
           </li>
-          {/* <li tabIndex={0}>
+          <li tabIndex={0}>
             <details>
-              <summary>Parent</summary>
-              <ul className="p-2">
+              <summary>Patient</summary>
+              <ul className="p-2 min-w-max bg-indigo-50">
                 <li>
-                  <a>Doctor</a>
+                  <Link href={"/primary-questions"}>Primary Questions</Link>
                 </li>
                 <li>
-                  <a>Patient</a>
+                  <Link href={"/primary-questions"}>Primary Questions</Link>
                 </li>
               </ul>
             </details>
-          </li> */}
+          </li>
           <li>
             <a>Doctor</a>
           </li>
-          <li>
+          {/* <li>
             <a>Patient</a>
-          </li>
+          </li> */}
         </ul>
       </div>
       <div className="navbar-end">
-        <a className="btn">Login</a>
+        <Link href={"/registration"} className="btn">
+          Registration
+        </Link>
       </div>
     </div>
   );
