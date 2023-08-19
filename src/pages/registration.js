@@ -1,5 +1,6 @@
 import RootLayout from "@/components/Layouts/RootLayout";
 import { signIn } from "next-auth/react";
+import Link from "next/link";
 import { useState } from "react";
 
 const RegisterPage = () => {
@@ -26,8 +27,8 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <h1 className="text-3xl font-bold mb-4">Patient Registration</h1>
+    <div className="flex flex-col items-center justify-center mt-20">
+      <h1 className="text-3xl font-bold mb-4">Registration</h1>
       <input
         type="text"
         name="name"
@@ -99,6 +100,12 @@ const RegisterPage = () => {
           Sign up with Google<div></div>
         </button>
       </div>
+      <p className="text-gray-600 mt-4">
+        Already have a account?{" "}
+        <Link href="/login" className="text-primary">
+          Login here
+        </Link>
+      </p>
     </div>
   );
 };

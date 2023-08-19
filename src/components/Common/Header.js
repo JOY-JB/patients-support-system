@@ -70,7 +70,7 @@ const Header = () => {
             <Link href={"/primary-questions"}>Patient Query</Link>
           </li>
           <li>
-            <Link href={"/primary-"}>Patient Prescription</Link>
+            <Link href={"/patient-prescription"}>Patient Prescription</Link>
           </li>
           <li>
             <Link href={"/prescription-management"}>

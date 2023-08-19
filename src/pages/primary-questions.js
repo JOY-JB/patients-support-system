@@ -8,6 +8,7 @@ const PrimaryQuestionsPage = () => {
     phoneNumber: "",
     address: "",
     previousIssues: [],
+    previousConsultant: "",
     currentIssues: "",
     sleepMode: "",
     depression: [],
@@ -124,6 +125,17 @@ const PrimaryQuestionsPage = () => {
 
           {/* Current Issues */}
           <label className="block">
+            Previous Consultant :
+            <textarea
+              name="previousConsultant"
+              value={formData.previousConsultant}
+              onChange={handleInputChange}
+              className="input input-bordered w-full"
+            />
+          </label>
+
+          {/* Current Issues */}
+          <label className="block">
             Current Issues:
             <textarea
               name="currentIssues"
@@ -176,6 +188,17 @@ const PrimaryQuestionsPage = () => {
                   className="form-checkbox"
                 />
                 <span className="ml-2">Unstable</span>
+              </label>
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  name="depression"
+                  value="irritated"
+                  checked={formData.depression.includes("irritated")}
+                  onChange={handleInputChange}
+                  className="form-checkbox"
+                />
+                <span className="ml-2">Irritated</span>
               </label>
               <label className="flex items-center">
                 <input
