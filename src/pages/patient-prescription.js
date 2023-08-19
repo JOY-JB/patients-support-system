@@ -3,101 +3,244 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { useRef, useState } from "react";
 
-const PatientPrescriptionPage = () => {
+const PrescriptionPage = () => {
   const prescriptionRef = useRef(null);
 
-  const [patient, setPatient] = useState({
-    name: "John Doe",
-    age: 35,
-    phoneNumber: "1234567890",
-    address: "123 Main St, City",
-    previousIssues: ["Anxiety", "Insomnia"],
-    currentIssues: "Depression",
-    sleepMode: "Trouble falling asleep",
-    depression: ["Loss of interest", "Low energy"],
-    ocd: ["Compulsive behavior"],
-    prescription:
-      "Medications: ABC Medication (1 tablet daily), XYZ Medication (2 tablets daily)\nDosage: Follow prescription instructions\nDuration: 2 weeks",
-  });
+  const [selectedPatient, setSelectedPatient] = useState(null);
+
+  const patients = [
+    // List of patients, you can fetch this data from an API or database
+    // Example patient data:
+    {
+      id: 1,
+      name: "John Doe",
+      age: 35,
+      phoneNumber: "1234567890",
+      address: "123 Main St, City",
+      previousIssues: ["Anxiety", "Insomnia"],
+      currentIssues: "Depression",
+      sleepMode: "Trouble falling asleep",
+      depression: ["Loss of interest", "Low energy"],
+      ocd: ["Compulsive behavior"],
+      prescription:
+        "Medications: ABC Medication (1 tablet daily), XYZ Medication (2 tablets daily)\nDosage: Follow prescription instructions\nDuration: 2 weeks",
+    },
+    // Add more patients as needed...
+  ];
+
+  const handlePatientSelect = (patientId) => {
+    const selected = patients.find((patient) => patient.id === patientId);
+    setSelectedPatient(selected);
+  };
 
   const handleDownloadPDF = async () => {
-    const pdf = new jsPDF("p", "mm", "a4");
-    const canvas = await html2canvas(prescriptionRef.current, {
-      scale: 2,
-    });
+    if (selectedPatient) {
+      const pdf = new jsPDF("p", "mm", "a4");
+      const canvas = await html2canvas(prescriptionRef.current, {
+        scale: 2,
+      });
 
-    const imgData = canvas.toDataURL("image/png");
-    pdf.addImage(imgData, "PNG", 10, 20, 210, 120);
+      const imgData = canvas.toDataURL("image/png");
+      pdf.addImage(imgData, "PNG", 10, 20, 210, 120);
 
-    pdf.save("patient_prescription.pdf");
+      pdf.save(`${selectedPatient.name}_prescription.pdf`);
+    }
   };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded -mt-40 shadow-lg w-full lg:w-3/5 xl:w-2/4">
-        <div ref={prescriptionRef}>
-          <h1 className="text-3xl font-bold mb-8 text-center text-primary">
-            Patient Prescription
-          </h1>
-          <table className="w-full text-lg">
-            <tbody>
-              <tr>
-                <td className="font-semibold">Name:</td>
-                <td>{patient.name}</td>
-              </tr>
-              <tr>
-                <td className="font-semibold">Age:</td>
-                <td>{patient.age}</td>
-              </tr>
-              <tr>
-                <td className="font-semibold">Phone Number:</td>
-                <td>{patient.phoneNumber}</td>
-              </tr>
-              <tr>
-                <td className="font-semibold">Address:</td>
-                <td>{patient.address}</td>
-              </tr>
-              <tr>
-                <td className="font-semibold">Previous Issues:</td>
-                <td>{patient.previousIssues.join(", ")}</td>
-              </tr>
-              <tr>
-                <td className="font-semibold">Current Issues:</td>
-                <td>{patient.currentIssues}</td>
-              </tr>
-              <tr>
-                <td className="font-semibold">Sleep Mode:</td>
-                <td>{patient.sleepMode}</td>
-              </tr>
-              <tr>
-                <td className="font-semibold">Depression:</td>
-                <td>{patient.depression.join(", ")}</td>
-              </tr>
-              <tr>
-                <td className="font-semibold">OCD:</td>
-                <td>{patient.ocd.join(", ")}</td>
-              </tr>
-            </tbody>
-          </table>
-          <div className="mt-6 pb-6">
-            <h2 className="text-xl font-semibold mb-4 text-primary">
-              Prescription
-            </h2>
-            <p className="text-gray-700 pb-4">{patient.prescription}</p>
+        {selectedPatient ? (
+          <>
+            <div ref={prescriptionRef}>
+              <h1 className="text-3xl font-bold mb-8 text-center text-primary">
+                Patient Prescription
+              </h1>
+              <table className="w-full text-lg">
+                <tbody>
+                  <tr>
+                    <td className="font-semibold">Name:</td>
+                    <td>{selectedPatient.name}</td>
+                  </tr>
+                  <tr>
+                    <td className="font-semibold">Age:</td>
+                    <td>{selectedPatient.age}</td>
+                  </tr>
+                  <tr>
+                    <td className="font-semibold">Phone Number:</td>
+                    <td>{selectedPatient.phoneNumber}</td>
+                  </tr>
+                  <tr>
+                    <td className="font-semibold">Address:</td>
+                    <td>{selectedPatient.address}</td>
+                  </tr>
+                  <tr>
+                    <td className="font-semibold">Previous Issues:</td>
+                    <td>{selectedPatient.previousIssues.join(", ")}</td>
+                  </tr>
+                  <tr>
+                    <td className="font-semibold">Current Issues:</td>
+                    <td>{selectedPatient.currentIssues}</td>
+                  </tr>
+                  <tr>
+                    <td className="font-semibold">Sleep Mode:</td>
+                    <td>{selectedPatient.sleepMode}</td>
+                  </tr>
+                  <tr>
+                    <td className="font-semibold">Depression:</td>
+                    <td>{selectedPatient.depression.join(", ")}</td>
+                  </tr>
+                  <tr>
+                    <td className="font-semibold">OCD:</td>
+                    <td>{selectedPatient.ocd.join(", ")}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div className="mt-6 pb-6">
+                <h2 className="text-xl font-semibold mb-4 text-primary">
+                  Prescription
+                </h2>
+                <p className="text-gray-700 pb-4">
+                  {selectedPatient.prescription}
+                </p>
+              </div>
+            </div>
+
+            <div className="w-full flex justify-center items-center mt-4">
+              <button
+                className="btn btn-primary"
+                onClick={handleDownloadPDF}
+                disabled={!selectedPatient}
+              >
+                Download PDF
+              </button>
+            </div>
+          </>
+        ) : (
+          <div>
+            <h1 className="text-3xl font-bold mb-8 text-center text-primary">
+              Patient Prescription
+            </h1>
+            <label className="block font-semibold mb-2">Select Patient:</label>
+            <select
+              className="input input-bordered input-primary w-full"
+              onChange={(e) => handlePatientSelect(parseInt(e.target.value))}
+            >
+              <option value="">Select a patient</option>
+              {patients.map((patient) => (
+                <option key={patient.id} value={patient.id}>
+                  {patient.name}
+                </option>
+              ))}
+            </select>
           </div>
-        </div>
-        <div className="w-full flex justify-center items-center">
-          <button className="btn btn-primary" onClick={handleDownloadPDF}>
-            Download PDF
-          </button>
-        </div>
+        )}
       </div>
     </div>
   );
 };
 
-export default PatientPrescriptionPage;
-
-PatientPrescriptionPage.getLayout = function getLayout(page) {
+PrescriptionPage.getLayout = function getLayout(page) {
   return <RootLayout>{page}</RootLayout>;
 };
+
+export default PrescriptionPage;
+
+// const PatientPrescriptionPage = () => {
+//   const prescriptionRef = useRef(null);
+
+//   const [patient, setPatient] = useState({
+//     name: "John Doe",
+//     age: 35,
+//     phoneNumber: "1234567890",
+//     address: "123 Main St, City",
+//     previousIssues: ["Anxiety", "Insomnia"],
+//     currentIssues: "Depression",
+//     sleepMode: "Trouble falling asleep",
+//     depression: ["Loss of interest", "Low energy"],
+//     ocd: ["Compulsive behavior"],
+//     prescription:
+//       "Medications: ABC Medication (1 tablet daily), XYZ Medication (2 tablets daily)\nDosage: Follow prescription instructions\nDuration: 2 weeks",
+//   });
+
+//   const handleDownloadPDF = async () => {
+//     const pdf = new jsPDF("p", "mm", "a4");
+//     const canvas = await html2canvas(prescriptionRef.current, {
+//       scale: 2,
+//     });
+
+//     const imgData = canvas.toDataURL("image/png");
+//     pdf.addImage(imgData, "PNG", 10, 20, 210, 120);
+
+//     pdf.save("patient_prescription.pdf");
+//   };
+
+//   return (
+//     <div className="flex justify-center items-center min-h-screen bg-gray-100">
+//       <div className="bg-white p-8 rounded -mt-40 shadow-lg w-full lg:w-3/5 xl:w-2/4">
+//         <div ref={prescriptionRef}>
+//           <h1 className="text-3xl font-bold mb-8 text-center text-primary">
+//             Patient Prescription
+//           </h1>
+//           <table className="w-full text-lg">
+//             <tbody>
+//               <tr>
+//                 <td className="font-semibold">Name:</td>
+//                 <td>{patient.name}</td>
+//               </tr>
+//               <tr>
+//                 <td className="font-semibold">Age:</td>
+//                 <td>{patient.age}</td>
+//               </tr>
+//               <tr>
+//                 <td className="font-semibold">Phone Number:</td>
+//                 <td>{patient.phoneNumber}</td>
+//               </tr>
+//               <tr>
+//                 <td className="font-semibold">Address:</td>
+//                 <td>{patient.address}</td>
+//               </tr>
+//               <tr>
+//                 <td className="font-semibold">Previous Issues:</td>
+//                 <td>{patient.previousIssues.join(", ")}</td>
+//               </tr>
+//               <tr>
+//                 <td className="font-semibold">Current Issues:</td>
+//                 <td>{patient.currentIssues}</td>
+//               </tr>
+//               <tr>
+//                 <td className="font-semibold">Sleep Mode:</td>
+//                 <td>{patient.sleepMode}</td>
+//               </tr>
+//               <tr>
+//                 <td className="font-semibold">Depression:</td>
+//                 <td>{patient.depression.join(", ")}</td>
+//               </tr>
+//               <tr>
+//                 <td className="font-semibold">OCD:</td>
+//                 <td>{patient.ocd.join(", ")}</td>
+//               </tr>
+//             </tbody>
+//           </table>
+//           <div className="mt-6 pb-6">
+//             <h2 className="text-xl font-semibold mb-4 text-primary">
+//               Prescription
+//             </h2>
+//             <p className="text-gray-700 pb-4">{patient.prescription}</p>
+//           </div>
+//         </div>
+//         <div className="w-full flex justify-center items-center">
+//           <button className="btn btn-primary" onClick={handleDownloadPDF}>
+//             Download PDF
+//           </button>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default PatientPrescriptionPage;
+
+// PatientPrescriptionPage.getLayout = function getLayout(page) {
+//   return <RootLayout>{page}</RootLayout>;
+// };

@@ -36,7 +36,6 @@ const LoginPage = () => {
         onChange={handleRoleChange}
         className="input input-bordered input-primary mb-4 w-full max-w-sm"
       >
-        <option value="patient">Patient</option>
         <option value="doctor">Doctor</option>
         <option value="receptionist">Receptionist</option>
         <option value="admin">Admin</option>

@@ -61,7 +61,9 @@ const Header = () => {
               <summary>Admin Management</summary>
               <ul className="p-2 min-w-max bg-indigo-50">
                 <li>
-                  <Link href={"/primary-questions"}>doctor management</Link>
+                  <Link href={"/addDoctor"}>Add A Doctor</Link>
+                  <Link href={"/patientList"}>Patient List</Link>
+                  <Link href={"/doctorList"}>Doctor List</Link>
                 </li>
               </ul>
             </details>

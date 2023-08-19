@@ -38,7 +38,7 @@ const PrescriptionManagementPage = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+    <div className="flex justify-center items-center min-h-[73vh] bg-gray-100">
       <div className="bg-white p-8 rounded shadow-md w-full sm:max-w-md">
         <h1 className="text-2xl font-bold mb-4">Prescription Management</h1>
         <label className="block mb-4">
