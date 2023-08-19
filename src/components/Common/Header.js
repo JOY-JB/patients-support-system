@@ -58,23 +58,25 @@ const Header = () => {
           </li>
           <li tabIndex={0}>
             <details>
-              <summary>Patient</summary>
+              <summary>Admin Management</summary>
               <ul className="p-2 min-w-max bg-indigo-50">
                 <li>
-                  <Link href={"/primary-questions"}>Primary Questions</Link>
-                </li>
-                <li>
-                  <Link href={"/primary-questions"}>Primary Questions</Link>
+                  <Link href={"/primary-questions"}>doctor management</Link>
                 </li>
               </ul>
             </details>
           </li>
           <li>
-            <a>Doctor</a>
+            <Link href={"/primary-questions"}>Patient Query</Link>
           </li>
-          {/* <li>
-            <a>Patient</a>
-          </li> */}
+          <li>
+            <Link href={"/primary-"}>Patient Prescription</Link>
+          </li>
+          <li>
+            <Link href={"/prescription-management"}>
+              Prescription Management
+            </Link>
+          </li>
         </ul>
       </div>
       <div className="navbar-end">
