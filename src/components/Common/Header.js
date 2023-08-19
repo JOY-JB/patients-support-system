@@ -1,6 +1,9 @@
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 
 const Header = () => {
+  const { data: session } = useSession();
+
   return (
     <div className="navbar bg-base-100">
       <div className="navbar-start">
@@ -62,8 +65,10 @@ const Header = () => {
               <ul className="p-2 min-w-max bg-indigo-50">
                 <li>
                   <Link href={"/addDoctor"}>Add A Doctor</Link>
-                  <Link href={"/patientList"}>Patient List</Link>
+                  <Link href={"/addReceptionist"}>Add A Receptionist</Link>
                   <Link href={"/doctorList"}>Doctor List</Link>
+                  <Link href={"/patientList"}>Patient List</Link>
+                  <Link href={"/receptionistList"}>Receptionist List</Link>
                 </li>
               </ul>
             </details>
@@ -82,9 +87,15 @@ const Header = () => {
         </ul>
       </div>
       <div className="navbar-end">
-        <Link href={"/registration"} className="btn">
-          Registration
-        </Link>
+        {session?.user ? (
+          <button className="btn" onClick={() => signOut()}>
+            Logout
+          </button>
+        ) : (
+          <Link href={"/login"} className="btn">
+            Login
+          </Link>
+        )}
       </div>
     </div>
   );

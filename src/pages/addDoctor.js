@@ -8,6 +8,16 @@ const AddDoctor = () => {
     email: "",
     age: "",
     password: "",
+    confirmPassword: "",
+  });
+
+  const [formErrors, setFormErrors] = useState({
+    name: false,
+    specialization: false,
+    email: false,
+    age: false,
+    password: false,
+    confirmPassword: false,
   });
 
   const handleInputChange = (e) => {
@@ -16,10 +26,24 @@ const AddDoctor = () => {
   };
 
   const handleAddDoctor = () => {
-    // Implement logic to add doctor using formData
-    // This could involve making an API request to your backend
-    // to save the new doctor's information
-    console.log("Adding doctor:", formData);
+    // Check for required fields and matching passwords
+    const newFormErrors = {
+      name: !formData.name,
+      specialization: !formData.specialization,
+      email: !formData.email,
+      age: !formData.age,
+      password: !formData.password,
+      confirmPassword: formData.password !== formData.confirmPassword,
+    };
+
+    setFormErrors(newFormErrors);
+
+    // Only proceed if no errors
+    if (!Object.values(newFormErrors).some((error) => error)) {
+      // Implement logic to add doctor using formData
+      // This could involve making an API request to your backend
+      console.log("Adding doctor:", formData);
+    }
   };
 
   return (
@@ -34,7 +58,9 @@ const AddDoctor = () => {
           placeholder="Name"
           value={formData.name}
           onChange={handleInputChange}
-          className="input input-bordered input-primary mb-4 w-full"
+          className={`input input-bordered input-primary mb-4 w-full ${
+            formErrors.name ? "border-red-500" : ""
+          }`}
         />
         <input
           type="text"
@@ -42,7 +68,9 @@ const AddDoctor = () => {
           placeholder="Specialization"
           value={formData.specialization}
           onChange={handleInputChange}
-          className="input input-bordered input-primary mb-4 w-full"
+          className={`input input-bordered input-primary mb-4 w-full ${
+            formErrors.specialization ? "border-red-500" : ""
+          }`}
         />
         <input
           type="email"
@@ -50,7 +78,9 @@ const AddDoctor = () => {
           placeholder="Email"
           value={formData.email}
           onChange={handleInputChange}
-          className="input input-bordered input-primary mb-4 w-full"
+          className={`input input-bordered input-primary mb-4 w-full ${
+            formErrors.email ? "border-red-500" : ""
+          }`}
         />
         <input
           type="number"
@@ -58,7 +88,9 @@ const AddDoctor = () => {
           placeholder="Age"
           value={formData.age}
           onChange={handleInputChange}
-          className="input input-bordered input-primary mb-4 w-full"
+          className={`input input-bordered input-primary mb-4 w-full ${
+            formErrors.age ? "border-red-500" : ""
+          }`}
         />
         <input
           type="password"
@@ -66,7 +98,19 @@ const AddDoctor = () => {
           placeholder="Password"
           value={formData.password}
           onChange={handleInputChange}
-          className="input input-bordered input-primary mb-4 w-full"
+          className={`input input-bordered input-primary mb-4 w-full ${
+            formErrors.password ? "border-red-500" : ""
+          }`}
+        />
+        <input
+          type="password"
+          name="confirmPassword"
+          placeholder="Confirm Password"
+          value={formData.confirmPassword}
+          onChange={handleInputChange}
+          className={`input input-bordered input-primary mb-4 w-full ${
+            formErrors.confirmPassword ? "border-red-500" : ""
+          }`}
         />
         <button className="btn btn-primary mt-4" onClick={handleAddDoctor}>
           Add Doctor

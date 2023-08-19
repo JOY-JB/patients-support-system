@@ -1,10 +1,9 @@
 import RootLayout from "@/components/Layouts/RootLayout";
 import { signIn } from "next-auth/react";
-import Link from "next/link";
 import { useState } from "react";
 
 const LoginPage = () => {
-  const [role, setRole] = useState("patient"); // Default role is patient
+  const [role, setRole] = useState("patient");
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -23,8 +22,13 @@ const LoginPage = () => {
     signIn(role, { email: formData.email, password: formData.password });
   };
 
-  const handleGoogleSignIn = () => {
-    signIn("google");
+  const handleGoogleLogin = async () => {
+    const response = await signIn("google", {
+      callbackUrl: "/",
+    });
+    if (response?.error) {
+      console.error(response.error);
+    }
   };
 
   return (
@@ -62,34 +66,21 @@ const LoginPage = () => {
       >
         Login
       </button>
-      <p className="text-gray-600 my-2">Or</p>
+      {/* <p className="text-gray-600 my-2">Or</p>
       <div className="px-6 sm:px-0 max-w-sm">
         <button
-          type="button"
-          className="text-white w-full bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center justify-between dark:focus:ring-[#4285F4]/55 mr-2 mb-2"
-          onClick={handleGoogleSignIn}
+          onClick={handleGoogleLogin}
+          className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
         >
-          <svg
-            className="mr-2 -ml-1 w-4 h-4"
-            aria-hidden="true"
-            focusable="false"
-            data-prefix="fab"
-            data-icon="google"
-            role="img"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 488 512"
-          >
-            {/* Google icon */}
-          </svg>
-          Login with Google<div></div>
+          Sign in with Google
         </button>
-      </div>
-      <p className="text-gray-600 mt-4">
+      </div> */}
+      {/* <p className="text-gray-600 mt-4">
         Not registered yet?{" "}
         <Link href="/registration" className="text-primary">
           Register here
         </Link>
-      </p>
+      </p> */}
     </div>
   );
 };
