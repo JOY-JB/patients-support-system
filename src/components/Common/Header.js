@@ -1,4 +1,4 @@
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 
 const Header = () => {
@@ -73,21 +73,46 @@ const Header = () => {
               </ul>
             </details>
           </li>
-          <li>
+          <li tabIndex={1}>
+            <details>
+              <summary>Receptionist Management</summary>
+              <ul className="p-2 min-w-max bg-indigo-50">
+                <li>
+                  <Link href={"/primary-questions"}>Patient Query</Link>
+                  <Link href={"/prescription-management"}>
+                    Prescription Management
+                  </Link>
+                </li>
+              </ul>
+            </details>
+          </li>
+          <li tabIndex={2}>
+            <details>
+              <summary>Doctor Management</summary>
+              <ul className="p-2 min-w-max bg-indigo-50">
+                <li>
+                  <Link href={"/patient-prescription"}>
+                    Patient Prescription
+                  </Link>
+                </li>
+              </ul>
+            </details>
+          </li>
+          {/* <li>
             <Link href={"/primary-questions"}>Patient Query</Link>
-          </li>
-          <li>
+          </li> */}
+          {/* <li>
             <Link href={"/patient-prescription"}>Patient Prescription</Link>
-          </li>
-          <li>
+          </li> */}
+          {/* <li>
             <Link href={"/prescription-management"}>
               Prescription Management
             </Link>
-          </li>
+          </li> */}
         </ul>
       </div>
       <div className="navbar-end">
-        {session?.user ? (
+        {/* {session?.user ? (
           <button className="btn" onClick={() => signOut()}>
             Logout
           </button>
@@ -95,7 +120,7 @@ const Header = () => {
           <Link href={"/login"} className="btn">
             Login
           </Link>
-        )}
+        )} */}
       </div>
     </div>
   );
