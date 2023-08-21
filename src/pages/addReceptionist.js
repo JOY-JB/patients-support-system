@@ -35,10 +35,9 @@ const AddReceptionistPage = () => {
 
     setFormErrors(newFormErrors);
 
-    // Only proceed if no errors
     if (!Object.values(newFormErrors).some((error) => error)) {
-      // Implement logic to add receptionist
-      // You can use formData to submit receptionist data
+      const processedValue = name === "age" ? parseInt(value) : value;
+
       console.log("Receptionist data:", formData);
     }
   };

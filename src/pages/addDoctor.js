@@ -22,7 +22,9 @@ const AddDoctor = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
+    const processedValue = name === "age" ? parseInt(value) : value;
+
+    setFormData((prevData) => ({ ...prevData, [name]: processedValue }));
   };
 
   const handleAddDoctor = () => {
@@ -38,11 +40,10 @@ const AddDoctor = () => {
 
     setFormErrors(newFormErrors);
 
-    // Only proceed if no errors
+    const { confirmPassword, ...filteredData } = formData;
+
     if (!Object.values(newFormErrors).some((error) => error)) {
-      // Implement logic to add doctor using formData
-      // This could involve making an API request to your backend
-      console.log("Adding doctor:", formData);
+      console.log("Adding doctor:", filteredData);
     }
   };
 

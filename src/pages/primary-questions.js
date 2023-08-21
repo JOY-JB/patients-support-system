@@ -119,7 +119,6 @@ const PrimaryQuestionsPage = () => {
                 />
                 <span className="ml-2">Depression</span>
               </label>
-              {/* Add more options */}
             </div>
           </label>
 
@@ -211,7 +210,6 @@ const PrimaryQuestionsPage = () => {
                 />
                 <span className="ml-2">Fatigued</span>
               </label>
-              {/* Add more options */}
             </div>
           </label>
 
@@ -241,7 +239,6 @@ const PrimaryQuestionsPage = () => {
                 />
                 <span className="ml-2">Order Obsession</span>
               </label>
-              {/* Add more options */}
             </div>
           </label>
 

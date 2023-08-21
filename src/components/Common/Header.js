@@ -79,8 +79,8 @@ const Header = () => {
               <ul className="p-2 min-w-max bg-indigo-50">
                 <li>
                   <Link href={"/primary-questions"}>Patient Query</Link>
-                  <Link href={"/prescription-management"}>
-                    Prescription Management
+                  <Link href={"/patient-prescription"}>
+                    Patient Prescription
                   </Link>
                 </li>
               </ul>
@@ -91,8 +91,8 @@ const Header = () => {
               <summary>Doctor Management</summary>
               <ul className="p-2 min-w-max bg-indigo-50">
                 <li>
-                  <Link href={"/patient-prescription"}>
-                    Patient Prescription
+                  <Link href={"/prescription-management"}>
+                    Prescription Management
                   </Link>
                 </li>
               </ul>

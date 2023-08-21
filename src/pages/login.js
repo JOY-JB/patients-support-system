@@ -1,5 +1,6 @@
 import RootLayout from "@/components/Layouts/RootLayout";
 import { signIn } from "next-auth/react";
+import Link from "next/link";
 import { useState } from "react";
 
 const LoginPage = () => {
@@ -75,12 +76,12 @@ const LoginPage = () => {
           Sign in with Google
         </button>
       </div> */}
-      {/* <p className="text-gray-600 mt-4">
+      <p className="text-gray-600 mt-4">
         Not registered yet?{" "}
         <Link href="/registration" className="text-primary">
           Register here
         </Link>
-      </p> */}
+      </p>
     </div>
   );
 };
