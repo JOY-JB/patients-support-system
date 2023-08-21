@@ -35,8 +35,9 @@ const PrimaryQuestionsPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you can save the formData to a database or perform other actions
-    // For now, let's log the formData
+
+    const { name, age, phoneNumber, address, ...primaryQuestions } = formData;
+
     console.log(formData);
   };
 

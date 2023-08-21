@@ -39,7 +39,24 @@ const AddReceptionistPage = () => {
       const processedData = { ...formData, age: parseInt(formData.age) };
       const { confirmPassword, ...data } = processedData;
 
-      console.log("Receptionist data:", data);
+      // console.log("Receptionist data:", data);
+
+      fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/receptionist/create-receptionist`,
+        {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.status === 200) {
+            window.alert("Receptionist added successfully!");
+          }
+        });
     }
   };
 

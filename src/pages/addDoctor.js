@@ -43,7 +43,24 @@ const AddDoctor = () => {
     const { confirmPassword, ...filteredData } = formData;
 
     if (!Object.values(newFormErrors).some((error) => error)) {
-      console.log("Adding doctor:", filteredData);
+      // console.log("Adding doctor:", filteredData);
+
+      fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/doctor/create-doctor`,
+        {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(filteredData),
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.status === 200) {
+            window.alert("Doctor added successfully!");
+          }
+        });
     }
   };
 

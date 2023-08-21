@@ -22,7 +22,7 @@ const PatientList = ({ patients }) => {
               <tr key={patient.id}>
                 <td>{patient.id}</td>
                 <td>{patient.name}</td>
-                <td>{patient.phone}</td>
+                <td>{patient.phoneNumber}</td>
                 <td>{patient.age}</td>
               </tr>
             ))}
@@ -40,7 +40,9 @@ PatientList.getLayout = function getLayout(page) {
 };
 
 export const getServerSideProps = async () => {
-  const res = await fetch(`${process.env.SERVER_URL}/api/v1/patient`);
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/patient`
+  );
   const data = await res.json();
 
   return {

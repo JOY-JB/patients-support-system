@@ -39,7 +39,9 @@ ReceptionistList.getLayout = function getLayout(page) {
 };
 
 export const getServerSideProps = async () => {
-  const res = await fetch(`${process.env.SERVER_URL}/api/v1/receptionist`);
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/receptionist`
+  );
   const data = await res.json();
 
   return {
