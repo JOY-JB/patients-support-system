@@ -36,9 +36,10 @@ const AddReceptionistPage = () => {
     setFormErrors(newFormErrors);
 
     if (!Object.values(newFormErrors).some((error) => error)) {
-      const processedValue = name === "age" ? parseInt(value) : value;
+      const processedData = { ...formData, age: parseInt(formData.age) };
+      const { confirmPassword, ...data } = processedData;
 
-      console.log("Receptionist data:", formData);
+      console.log("Receptionist data:", data);
     }
   };
 

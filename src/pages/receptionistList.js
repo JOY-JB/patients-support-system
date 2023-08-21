@@ -1,32 +1,6 @@
 import RootLayout from "@/components/Layouts/RootLayout";
-import { useEffect, useState } from "react";
 
-const ReceptionistList = () => {
-  const [receptionists, setReceptionists] = useState([]);
-
-  // Fetch receptionists data from your backend API
-  useEffect(() => {
-    // Replace this with actual API call to get receptionists data
-    // Example: fetchReceptionistsData().then(data => setReceptionists(data));
-    const sampleData = [
-      {
-        id: 1,
-        name: "Receptionist One",
-        email: "receptionist1@example.com",
-        age: 28,
-      },
-      {
-        id: 2,
-        name: "Receptionist Two",
-        email: "receptionist2@example.com",
-        age: 24,
-      },
-      // ... other receptionist data
-    ];
-
-    setReceptionists(sampleData);
-  }, []);
-
+const ReceptionistList = ({ receptionists }) => {
   return (
     <div className="flex justify-center items-center min-h-[73vh] bg-gray-100">
       <div className="bg-white p-8 rounded shadow-lg w-full lg:w-2/3 xl:w-1/2">
@@ -43,7 +17,7 @@ const ReceptionistList = () => {
             </tr>
           </thead>
           <tbody>
-            {receptionists.map((receptionist) => (
+            {receptionists?.map((receptionist) => (
               <tr key={receptionist.id}>
                 <td>{receptionist.id}</td>
                 <td>{receptionist.name}</td>
@@ -58,8 +32,19 @@ const ReceptionistList = () => {
   );
 };
 
+export default ReceptionistList;
+
 ReceptionistList.getLayout = function getLayout(page) {
   return <RootLayout>{page}</RootLayout>;
 };
 
-export default ReceptionistList;
+export const getServerSideProps = async () => {
+  const res = await fetch(`${process.env.SERVER_URL}/api/v1/receptionist`);
+  const data = await res.json();
+
+  return {
+    props: {
+      receptionists: data.data,
+    },
+  };
+};

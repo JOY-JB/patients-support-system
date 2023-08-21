@@ -56,6 +56,9 @@ const Footer = () => {
             </svg>
           </a>
         </div>
+        <p>
+          Copyright © 2023 - All right reserved by <b>JOY BARUA</b>
+        </p>
       </div>
     </footer>
   );

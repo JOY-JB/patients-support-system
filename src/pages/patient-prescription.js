@@ -47,6 +47,16 @@ const PrescriptionPage = () => {
     }
   };
 
+  const handlePrint = () => {
+    if (selectedPatient) {
+      const contentToPrint = prescriptionRef.current;
+      const printWindow = window.open("", "_blank");
+      printWindow.document.write(contentToPrint.innerHTML);
+      printWindow.document.close();
+      printWindow.print();
+    }
+  };
+
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded -mt-40 shadow-lg w-full lg:w-3/5 xl:w-2/4">
@@ -113,6 +123,14 @@ const PrescriptionPage = () => {
                 disabled={!selectedPatient}
               >
                 Download PDF
+              </button>
+
+              <button
+                className="btn btn-neutral ml-4"
+                onClick={handlePrint}
+                disabled={!selectedPatient}
+              >
+                Print Prescription
               </button>
             </div>
           </>
