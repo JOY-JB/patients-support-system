@@ -1,35 +1,17 @@
 import RootLayout from "@/components/Layouts/RootLayout";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-const PrescriptionPage = () => {
+const PrescriptionPage = ({ patients }) => {
   const prescriptionRef = useRef(null);
 
   const [selectedPatient, setSelectedPatient] = useState(null);
-
-  const patients = [
-    // List of patients, you can fetch this data from an API or database
-    // Example patient data:
-    {
-      id: 1,
-      name: "John Doe",
-      age: 35,
-      phoneNumber: "1234567890",
-      address: "123 Main St, City",
-      previousIssues: ["Anxiety", "Insomnia"],
-      currentIssues: "Depression",
-      sleepMode: "Trouble falling asleep",
-      depression: ["Loss of interest", "Low energy"],
-      ocd: ["Compulsive behavior"],
-      prescription:
-        "Medications: ABC Medication (1 tablet daily), XYZ Medication (2 tablets daily)\nDosage: Follow prescription instructions\nDuration: 2 weeks",
-    },
-    // Add more patients as needed...
-  ];
+  const [selectedPatientQuery, setSelectedPatientQuery] = useState(null);
 
   const handlePatientSelect = (patientId) => {
     const selected = patients.find((patient) => patient.id === patientId);
+
     setSelectedPatient(selected);
   };
 
@@ -56,6 +38,27 @@ const PrescriptionPage = () => {
       printWindow.print();
     }
   };
+
+  useEffect(() => {
+    if (selectedPatient?.id) {
+      fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/primaryQuestionForm/${selectedPatient.id}`
+      )
+        .then((res) => res.json())
+        .then((data) => setSelectedPatientQuery(data.data));
+
+      fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/prescription/${selectedPatient.id}`
+      )
+        .then((res) => res.json())
+        .then((data) =>
+          setSelectedPatientQuery((prev) => ({
+            ...prev,
+            prescription: data?.data?.content,
+          }))
+        );
+    }
+  }, [selectedPatient]);
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -86,23 +89,23 @@ const PrescriptionPage = () => {
                   </tr>
                   <tr>
                     <td className="font-semibold">Previous Issues:</td>
-                    <td>{selectedPatient.previousIssues.join(", ")}</td>
+                    <td>{selectedPatientQuery?.previousIssues?.join(", ")}</td>
                   </tr>
                   <tr>
                     <td className="font-semibold">Current Issues:</td>
-                    <td>{selectedPatient.currentIssues}</td>
+                    <td>{selectedPatientQuery?.currentIssues}</td>
                   </tr>
                   <tr>
                     <td className="font-semibold">Sleep Mode:</td>
-                    <td>{selectedPatient.sleepMode}</td>
+                    <td>{selectedPatientQuery?.sleepMode}</td>
                   </tr>
                   <tr>
                     <td className="font-semibold">Depression:</td>
-                    <td>{selectedPatient.depression.join(", ")}</td>
+                    <td>{selectedPatientQuery?.depression?.join(", ")}</td>
                   </tr>
                   <tr>
                     <td className="font-semibold">OCD:</td>
-                    <td>{selectedPatient.ocd.join(", ")}</td>
+                    <td>{selectedPatientQuery?.ocd?.join(", ")}</td>
                   </tr>
                 </tbody>
               </table>
@@ -111,7 +114,7 @@ const PrescriptionPage = () => {
                   Prescription
                 </h2>
                 <p className="text-gray-700 pb-4">
-                  {selectedPatient.prescription}
+                  {selectedPatientQuery?.prescription}
                 </p>
               </div>
             </div>
@@ -158,8 +161,21 @@ const PrescriptionPage = () => {
   );
 };
 
+export default PrescriptionPage;
+
 PrescriptionPage.getLayout = function getLayout(page) {
   return <RootLayout>{page}</RootLayout>;
 };
 
-export default PrescriptionPage;
+export const getServerSideProps = async () => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/patient`
+  );
+  const data = await res.json();
+
+  return {
+    props: {
+      patients: data.data,
+    },
+  };
+};

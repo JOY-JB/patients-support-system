@@ -1,28 +1,15 @@
 import RootLayout from "@/components/Layouts/RootLayout";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const PrescriptionManagementPage = ({ patients }) => {
+const PrescriptionManagementPage = () => {
+  const [patients, setPatients] = useState([]);
   const [selectedPatient, setSelectedPatient] = useState(null);
+  const [selectedPatientQuery, setSelectedPatientQuery] = useState(null);
   const [prescription, setPrescription] = useState("");
-
-  // const patients = [
-  //   {
-  //     id: 1,
-  //     name: "Patient 1",
-  //     age: 30,
-  //     phoneNumber: "1234567890",
-  //     address: "Address 1",
-  //     previousIssues: ["Anxiety", "Insomnia"],
-  //     currentIssues: "Depression",
-  //     sleepMode: "Trouble falling asleep",
-  //     depression: ["Loss of interest", "Low energy"],
-  //     ocd: ["Compulsive behavior"],
-  //   },
-  //   // Add more patients
-  // ];
 
   const handlePatientChange = (e) => {
     const patientId = parseInt(e.target.value);
+
     const selected = patients.find((patient) => patient.id === patientId);
     setSelectedPatient(selected);
   };
@@ -32,10 +19,43 @@ const PrescriptionManagementPage = ({ patients }) => {
   };
 
   const handlePrescribe = () => {
-    // Here you can save the prescription data to a database or perform other actions
-    // For now, let's log the prescription
-    console.log(`Prescription for ${selectedPatient.name}: ${prescription}`);
+    fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/prescription/create-prescription`,
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          patientId: selectedPatient.id,
+          doctorId: selectedPatient.doctorId,
+          content: prescription,
+        }),
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status === 200) {
+          window.alert("Prescription added successfully!");
+        }
+      });
   };
+
+  useEffect(() => {
+    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/patient`)
+      .then((res) => res.json())
+      .then((data) => setPatients(data.data));
+  }, []);
+
+  useEffect(() => {
+    if (selectedPatient?.id) {
+      fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/primaryQuestionForm/${selectedPatient.id}`
+      )
+        .then((res) => res.json())
+        .then((data) => setSelectedPatientQuery(data.data));
+    }
+  }, [selectedPatient]);
 
   return (
     <div className="flex justify-center items-center min-h-[73vh] bg-gray-100">
@@ -65,12 +85,13 @@ const PrescriptionManagementPage = ({ patients }) => {
               <p>Phone Number: {selectedPatient.phoneNumber}</p>
               <p>Address: {selectedPatient.address}</p>
               <p>
-                Previous Issues: {selectedPatient?.previousIssues?.join(", ")}
+                Previous Issues:{" "}
+                {selectedPatientQuery?.previousIssues?.join(", ")}
               </p>
-              <p>Current Issues: {selectedPatient?.currentIssues}</p>
-              <p>Sleep Mode: {selectedPatient?.sleepMode}</p>
-              <p>Depression: {selectedPatient?.depression?.join(", ")}</p>
-              <p>OCD: {selectedPatient?.ocd?.join(", ")}</p>
+              <p>Current Issues: {selectedPatientQuery?.currentIssues}</p>
+              <p>Sleep Mode: {selectedPatientQuery?.sleepMode}</p>
+              <p>Depression: {selectedPatientQuery?.depression?.join(", ")}</p>
+              <p>OCD: {selectedPatientQuery?.ocd?.join(", ")}</p>
             </div>
             <label className="block mb-4">
               Write Prescription:
@@ -101,15 +122,15 @@ PrescriptionManagementPage.getLayout = function getLayout(page) {
   return <RootLayout>{page}</RootLayout>;
 };
 
-export const getServerSideProps = async () => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/patient`
-  );
-  const data = await res.json();
+// export const getServerSideProps = async () => {
+//   const res = await fetch(
+//     `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/patient`
+//   );
+//   const data = await res.json();
 
-  return {
-    props: {
-      patients: data.data,
-    },
-  };
-};
+//   return {
+//     props: {
+//       patients: data.data,
+//     },
+//   };
+// };

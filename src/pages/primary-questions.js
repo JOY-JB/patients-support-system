@@ -2,6 +2,7 @@ import RootLayout from "@/components/Layouts/RootLayout";
 import { useState } from "react";
 
 const PrimaryQuestionsPage = () => {
+  const [patientData, setPatientData] = useState(null);
   const [formData, setFormData] = useState({
     name: "",
     age: "",
@@ -33,12 +34,49 @@ const PrimaryQuestionsPage = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const { name, age, phoneNumber, address, ...primaryQuestions } = formData;
+    const data = { name, age, phoneNumber, address, doctorId: 1 };
 
-    console.log(formData);
+    const patientCreate = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/patient/create-patient`,
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        return data;
+      });
+
+    const primaryQuestionsData = {
+      receptionistId: 1,
+      patientId: patientCreate?.data?.id,
+      ...primaryQuestions,
+    };
+
+    fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/primaryQuestionForm/create-form`,
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(primaryQuestionsData),
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status === 200) {
+          window.alert("Primary Questions added successfully!");
+        }
+      });
   };
 
   return (
