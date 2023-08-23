@@ -61,21 +61,27 @@ const PrescriptionManagementPage = () => {
     <div className="flex justify-center items-center min-h-[73vh] bg-gray-100">
       <div className="bg-white p-8 rounded shadow-md w-full sm:max-w-md">
         <h1 className="text-2xl font-bold mb-4">Prescription Management</h1>
-        <label className="block mb-4">
-          Select Patient:
-          <select
-            name="patient"
-            onChange={handlePatientChange}
-            className="input input-bordered w-full"
-          >
-            <option value="">Select a patient</option>
-            {patients.map((patient) => (
-              <option key={patient.id} value={patient.id}>
-                {patient.name}
-              </option>
-            ))}
-          </select>
-        </label>
+        {patients ? (
+          <label className="block mb-4">
+            Select Patient:
+            <select
+              name="patient"
+              onChange={handlePatientChange}
+              className="input input-bordered w-full"
+            >
+              <option value="">Select a patient</option>
+              {patients.map((patient) => (
+                <option key={patient.id} value={patient.id}>
+                  {patient.name}
+                </option>
+              ))}
+            </select>
+          </label>
+        ) : (
+          <div className="flex justify-center items-center">
+            <span className="loading loading-spinner loading-lg"></span>
+          </div>
+        )}
         {selectedPatient && (
           <>
             <div className="mb-4">

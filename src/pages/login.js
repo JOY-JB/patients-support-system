@@ -1,5 +1,5 @@
 import RootLayout from "@/components/Layouts/RootLayout";
-import { signIn } from "next-auth/react";
+// import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -20,16 +20,16 @@ const LoginPage = () => {
   };
 
   const handleLogin = () => {
-    signIn(role, { email: formData.email, password: formData.password });
+    // signIn(role, { email: formData.email, password: formData.password });
   };
 
   const handleGoogleLogin = async () => {
-    const response = await signIn("google", {
-      callbackUrl: "/",
-    });
-    if (response?.error) {
-      console.error(response.error);
-    }
+    // const response = await signIn("google", {
+    //   callbackUrl: "/",
+    // });
+    // if (response?.error) {
+    //   console.error(response.error);
+    // }
   };
 
   return (

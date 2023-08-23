@@ -3,7 +3,8 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { useEffect, useRef, useState } from "react";
 
-const PrescriptionPage = ({ patients }) => {
+const PrescriptionPage = () => {
+  const [patients, setPatients] = useState(null);
   const prescriptionRef = useRef(null);
 
   const [selectedPatient, setSelectedPatient] = useState(null);
@@ -59,6 +60,12 @@ const PrescriptionPage = ({ patients }) => {
         );
     }
   }, [selectedPatient]);
+
+  useEffect(() => {
+    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/patient`)
+      .then((res) => res.json())
+      .then((data) => setPatients(data?.data));
+  }, []);
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -143,17 +150,23 @@ const PrescriptionPage = ({ patients }) => {
               Patient Prescription
             </h1>
             <label className="block font-semibold mb-2">Select Patient:</label>
-            <select
-              className="input input-bordered input-primary w-full"
-              onChange={(e) => handlePatientSelect(parseInt(e.target.value))}
-            >
-              <option value="">Select a patient</option>
-              {patients.map((patient) => (
-                <option key={patient.id} value={patient.id}>
-                  {patient.name}
-                </option>
-              ))}
-            </select>
+            {patients ? (
+              <select
+                className="input input-bordered input-primary w-full"
+                onChange={(e) => handlePatientSelect(parseInt(e.target.value))}
+              >
+                <option value="">Select a patient</option>
+                {patients.map((patient) => (
+                  <option key={patient.id} value={patient.id}>
+                    {patient.name}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <div className="flex justify-center items-center">
+                <span className="loading loading-spinner loading-lg"></span>
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -167,15 +180,15 @@ PrescriptionPage.getLayout = function getLayout(page) {
   return <RootLayout>{page}</RootLayout>;
 };
 
-export const getServerSideProps = async () => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/patient`
-  );
-  const data = await res.json();
+// export const getServerSideProps = async () => {
+//   const res = await fetch(
+//     `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/patient`
+//   );
+//   const data = await res.json();
 
-  return {
-    props: {
-      patients: data.data,
-    },
-  };
-};
+//   return {
+//     props: {
+//       patients: data.data,
+//     },
+//   };
+// };

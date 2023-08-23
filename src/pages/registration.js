@@ -1,5 +1,5 @@
 import RootLayout from "@/components/Layouts/RootLayout";
-import { signIn } from "next-auth/react";
+// import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -18,12 +18,12 @@ const RegisterPage = () => {
   };
 
   const handleGoogleSignIn = async () => {
-    const response = await signIn("google", {
-      callbackUrl: "http://localhost:3000/",
-    });
-    if (response?.error) {
-      console.error(response.error);
-    }
+    // const response = await signIn("google", {
+    //   callbackUrl: "http://localhost:3000/",
+    // });
+    // if (response?.error) {
+    //   console.error(response.error);
+    // }
   };
 
   const handleRegistration = () => {
