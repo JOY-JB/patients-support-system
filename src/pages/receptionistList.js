@@ -5,7 +5,9 @@ const ReceptionistList = () => {
   const [receptionists, setReceptionists] = useState(null);
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/receptionist`)
+    fetch(
+      `https://health-care-backend-joybarua0058-gmailcom.vercel.app/api/v1/receptionist`
+    )
       .then((res) => res.json())
       .then((data) => setReceptionists(data?.data));
   }, []);

@@ -20,7 +20,7 @@ const PrescriptionManagementPage = () => {
 
   const handlePrescribe = () => {
     fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/prescription/create-prescription`,
+      `https://health-care-backend-joybarua0058-gmailcom.vercel.app/api/v1/prescription/create-prescription`,
       {
         method: "POST",
         headers: {
@@ -42,7 +42,9 @@ const PrescriptionManagementPage = () => {
   };
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/patient`)
+    fetch(
+      `https://health-care-backend-joybarua0058-gmailcom.vercel.app/api/v1/patient`
+    )
       .then((res) => res.json())
       .then((data) => setPatients(data.data));
   }, []);
@@ -50,7 +52,7 @@ const PrescriptionManagementPage = () => {
   useEffect(() => {
     if (selectedPatient?.id) {
       fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/primaryQuestionForm/${selectedPatient.id}`
+        `https://health-care-backend-joybarua0058-gmailcom.vercel.app/api/v1/primaryQuestionForm/${selectedPatient.id}`
       )
         .then((res) => res.json())
         .then((data) => setSelectedPatientQuery(data.data));

@@ -6,7 +6,9 @@ const PatientList = () => {
   const [patients, setPatients] = useState(null);
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/patient`)
+    fetch(
+      `https://health-care-backend-joybarua0058-gmailcom.vercel.app/api/v1/patient`
+    )
       .then((res) => res.json())
       .then((data) => setPatients(data?.data));
   }, []);
